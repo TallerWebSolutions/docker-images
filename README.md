@@ -7,6 +7,7 @@ Repository to contain the build process for public docker images built by the Ta
 These are shortcut commands available with `make` inside each image directory:
 
 - `run`: Run a container for testing purpose.
+- `pull`: Pulls the image.
 - `build`: Builds the image.
 - `push`: Builds and pushes the image.
 
