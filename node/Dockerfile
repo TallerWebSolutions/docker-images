@@ -5,7 +5,6 @@ MAINTAINER Taller Devs <dev@taller.net.br>
 # ----------------------
 
 ENV DEBIAN_FRONTEND noninteractive  # Ignore apt-get interactions.
-ENV NPM_CONFIG_LOGLEVEL info        # Show better information from npm.
 
 
 # Install dependencies.
