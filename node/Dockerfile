@@ -1,10 +1,11 @@
 FROM debian:jessie
-MAINTAINER Taller Devs <dev@taller.net.br>
+MAINTAINER Taller Development Team <dev@taller.net.br>
 
 # Configure environment.
 # ----------------------
 
-ENV DEBIAN_FRONTEND noninteractive  # Ignore apt-get interactions.
+ENV DEBIAN_FRONTEND noninteractive
+ENV NVM_DIR /usr/local/nvm
 
 
 # Install dependencies.
@@ -37,8 +38,17 @@ RUN apt-get update &&          \
 # Install Node.
 # -------------
 
+
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash \
- && export NVM_DIR="/root/.nvm"                                                         \
  && [ -s "$NVM_DIR/nvm.sh" ]                                                            \
  && . "$NVM_DIR/nvm.sh"                                                                 \
  && nvm install v6.8.0
+
+
+# Setup entrypoint.
+# -----------------
+
+COPY ./entrypoint.sh /etc/entrypoint.sh
+RUN sudo chmod +x /etc/entrypoint.sh
+CMD ["/bin/bash"]
+ENTRYPOINT ["/etc/entrypoint.sh"]
