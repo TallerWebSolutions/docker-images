@@ -10,29 +10,32 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install dependencies.
 # ---------------------
 
-RUN apt-get update &&          \
-    apt-get install -y         \
-    sudo                       \
-    ssh                        \
-    curl                       \
-    wget                       \
-    gzip                       \
-    bzip2                      \
-    locales                    \
-    netcat                     \
-    xz-utils                   \
-    htop                       \
-    git                        \
-    vim                        \
-    nano                       \
-    bash-completion            \
-    libfontconfig1             \
-    build-essential            \
-    python-software-properties \
-    ca-certificates            \
-    rsync                      \
-    --no-install-recommends
-
+RUN apt-get update                      \
+    && apt-get install -y               \
+    sudo                                \
+    ssh                                 \
+    curl                                \
+    wget                                \
+    gzip                                \
+    bzip2                               \
+    locales                             \
+    netcat                              \
+    xz-utils                            \
+    htop                                \
+    git                                 \
+    vim                                 \
+    nano                                \
+    bash-completion                     \
+    libfontconfig1                      \
+    build-essential                     \
+    python-software-properties          \
+    ca-certificates                     \
+    rsync                               \
+    --no-install-recommends             \
+    && apt-get clean                    \
+    && rm -rf /var/lib/apt/lists/*      \
+    && rm -rf /tmp/*                    \
+    && rm -rf /var/tmp/*
 
 # Configure Node related environment.
 # -----------------------------------
@@ -47,10 +50,10 @@ ENV VERSION ${VERSION}
 
 
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash \
- && [ -s "$NVM_DIR/nvm.sh" ]                                                            \
- && . "$NVM_DIR/nvm.sh"                                                                 \
- && nvm install ${VERSION}                                                              \
- && npm install -g yarn
+    && [ -s "$NVM_DIR/nvm.sh" ]                                                         \
+    && . "$NVM_DIR/nvm.sh"                                                              \
+    && nvm install ${VERSION}                                                           \
+    && npm install -g yarn
 
 
 # Setup NVM and Node sourcing.
