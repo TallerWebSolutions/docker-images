@@ -20,7 +20,7 @@ USER     | taller              | The Docker user name
 REPO     | $(notdir $(CURDIR)) | The repository name
 
 
-## Customizing
+## Customization
 
 Here are some tips to customizing the images for each project's needs.
 
