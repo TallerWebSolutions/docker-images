@@ -9,7 +9,7 @@ These are shortcut commands available with `make` inside each image directory:
 - `run`: Run a container for testing purpose.
 - `pull`: Pulls the image.
 - `build`: Builds the image.
-- `push`: Builds and pushes the image.
+- `push`: (deprecated) Builds and pushes the image.
 
 These are common arguments available:
 

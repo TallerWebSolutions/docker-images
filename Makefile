@@ -13,5 +13,5 @@ pull:
 build:
 	docker build -t $(USER)/$(REPO):$(TAG) .
 
-push: build
-	docker push $(USER)/$(REPO):$(TAG)
+push:
+	$(error Docker Hub automated build is configured; use Git push to trigger a new build.)
