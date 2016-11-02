@@ -76,3 +76,23 @@ RUN curl -sS https://getcomposer.org/installer | php    \
     && mv composer.phar /usr/local/bin/composer         \
     && composer self-update                             \
     && composer global require "hirak/prestissimo:^0.3"
+
+# Make sure any sudoer can control libs.
+# --------------------------------------
+
+RUN sudo chmod a+w -R /usr/local
+
+
+# Copy configuration files.
+# -------------------------
+
+COPY ./files/nginx.conf     /etc/nginx/nginx.conf
+COPY ./files/fastcgi.conf   /etc/nginx/fastcgi.conf
+COPY ./files/fpm.conf       /etc/php5/fpm/php-fpm.conf
+COPY ./files/www.conf       /etc/php5/fpm/pool.d/www.conf
+COPY ./files/fpm.ini        /etc/php5/fpm/php.ini
+COPY ./files/cli.ini        /etc/php5/cli/php.ini
+COPY ./files/xdebug.ini     /etc/php5/mods-available/xdebug.ini
+COPY ./files/web            /var/www/drupal/src/web
+
+RUN echo "\nsudo service nginx start" >> /etc/bash.bashrc

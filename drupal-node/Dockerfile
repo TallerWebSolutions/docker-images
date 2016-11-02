@@ -64,7 +64,6 @@ RUN apt-get update -y               \
 # Configure Composer related environment.
 # ---------------------------------------
 
-### INSTALL COMPOSER
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_DISABLE_XDEBUG_WARN 1
 
@@ -78,6 +77,21 @@ RUN curl -sS https://getcomposer.org/installer | php    \
     && composer global require "hirak/prestissimo:^0.3"
 
 
+# Copy configuration files.
+# -------------------------
+
+COPY ./files/nginx.conf     /etc/nginx/nginx.conf
+COPY ./files/fastcgi.conf   /etc/nginx/fastcgi.conf
+COPY ./files/fpm.conf       /etc/php5/fpm/php-fpm.conf
+COPY ./files/www.conf       /etc/php5/fpm/pool.d/www.conf
+COPY ./files/fpm.ini        /etc/php5/fpm/php.ini
+COPY ./files/cli.ini        /etc/php5/cli/php.ini
+COPY ./files/xdebug.ini     /etc/php5/mods-available/xdebug.ini
+COPY ./files/web            /var/www/drupal/src/web
+
+RUN echo "\n# Start NGINX\nsudo service nginx start" >> /etc/bash.bashrc
+
+
 # Configure Node related environment.
 # -----------------------------------
 
@@ -88,7 +102,6 @@ ENV VERSION ${VERSION}
 
 # Install Node.
 # -------------
-
 
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash \
     && [ -s "$NVM_DIR/nvm.sh" ]                                                         \
@@ -101,4 +114,9 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh
 # ----------------------------
 
 RUN echo "\n# Source NVM scripts\nsource $NVM_DIR/nvm.sh" >> /etc/bash.bashrc
+
+
+# Make sure any sudoer can control libs.
+# --------------------------------------
+
 RUN sudo chmod a+w -R /usr/local
