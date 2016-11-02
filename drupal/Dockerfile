@@ -12,8 +12,27 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -y               \
     && apt-get install -y           \
-    php5-fpm                        \
+    bash-completion                 \
+    build-essential                 \
+    bzip2                           \
+    ca-certificates                 \
+    curl                            \
+    git                             \
+    gzip                            \
+    htop                            \
+    imagemagick                     \
+    libfontconfig1                  \
+    libjpeg-dev                     \
+    libpng12-dev                    \
+    libpq-dev                       \
+    locales                         \
+    mysql-client                    \
+    nano                            \
+    netcat                          \
+    openconnect                     \
+    php-apc                         \
     php5-curl                       \
+    php5-fpm                        \
     php5-gd                         \
     php5-geoip                      \
     php5-imagick                    \
@@ -21,39 +40,20 @@ RUN apt-get update -y               \
     php5-json                       \
     php5-ldap                       \
     php5-mcrypt                     \
+    php5-memcached                  \
+    php5-memcache                   \
+    php5-mysqlnd                    \
     php5-sqlite                     \
     php5-xdebug                     \
     php5-xmlrpc                     \
-    php-apc                         \
-    php5-mysqlnd                    \
-    php5-memcached                  \
-    php5-memcache                   \
-    sudo                            \
-		htop                            \
-		curl                            \
-		git                             \
-		libpng12-dev                    \
-		libjpeg-dev                     \
-		libpq-dev                       \
-    vim                             \
-    imagemagick                     \
-    mysql-client                    \
-    bash-completion                 \
-    libfontconfig1                  \
-    bzip2                           \
-    build-essential                 \
     python-software-properties      \
-    locales                         \
-    wget                            \
-    openconnect                     \
-    netcat                          \
-    tig                             \
-    ca-certificates                 \
-    xz-utils                        \
-    libfontconfig1                  \
-    ssh                             \
-    nano                            \
     rsync                           \
+    sudo                            \
+    ssh                             \
+    tig                             \
+    vim                             \
+    xz-utils                        \
+    wget                            \
     --no-install-recommends         \
     && apt-get clean                \
     && rm -rf /var/lib/apt/lists/*  \
