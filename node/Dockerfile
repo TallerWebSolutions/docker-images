@@ -10,31 +10,32 @@ ENV DEBIAN_FRONTEND noninteractive
 # Install dependencies.
 # ---------------------
 
-RUN apt-get update                      \
-    && apt-get install -y               \
-    sudo                                \
-    ssh                                 \
-    curl                                \
-    wget                                \
-    gzip                                \
-    bzip2                               \
-    locales                             \
-    netcat                              \
-    xz-utils                            \
-    htop                                \
-    git                                 \
-    vim                                 \
-    nano                                \
-    bash-completion                     \
-    libfontconfig1                      \
-    build-essential                     \
-    python-software-properties          \
-    ca-certificates                     \
-    rsync                               \
-    --no-install-recommends             \
-    && apt-get clean                    \
-    && rm -rf /var/lib/apt/lists/*      \
-    && rm -rf /tmp/*                    \
+RUN apt-get update -y               \
+    && apt-get install -y           \
+    bash-completion                 \
+    build-essential                 \
+    bzip2                           \
+    ca-certificates                 \
+    curl                            \
+    git                             \
+    gzip                            \
+    htop                            \
+    libfontconfig1                  \
+    locales                         \
+    nano                            \
+    netcat                          \
+    python-software-properties      \
+    rsync                           \
+    sudo                            \
+    ssh                             \
+    tig                             \
+    vim                             \
+    xz-utils                        \
+    wget                            \
+    --no-install-recommends         \
+    && apt-get clean                \
+    && rm -rf /var/lib/apt/lists/*  \
+    && rm -rf /tmp/*                \
     && rm -rf /var/tmp/*
 
 # Configure Node related environment.
