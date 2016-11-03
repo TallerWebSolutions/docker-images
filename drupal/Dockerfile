@@ -93,6 +93,6 @@ COPY ./files/www.conf       /etc/php5/fpm/pool.d/www.conf
 COPY ./files/fpm.ini        /etc/php5/fpm/php.ini
 COPY ./files/cli.ini        /etc/php5/cli/php.ini
 COPY ./files/xdebug.ini     /etc/php5/mods-available/xdebug.ini
-COPY ./files/web            /var/www/drupal/src/web
+COPY ./files/web            /var/www/drupal
 
 RUN echo "\n# Start NGINX\nsudo service nginx start" >> /etc/bash.bashrc
