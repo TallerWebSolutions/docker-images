@@ -54,7 +54,8 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh
     && [ -s "$NVM_DIR/nvm.sh" ]                                                         \
     && . "$NVM_DIR/nvm.sh"                                                              \
     && nvm install ${VERSION}                                                           \
-    && npm install -g yarn
+    && npm install -g yarn                                                              \
+    && ln -s $(dirname $(which node))/* /usr/local/bin
 
 
 # Setup NVM and Node sourcing.
