@@ -10,6 +10,7 @@ RUN apt-get update -y             \
   build-essential                 \
   bzip2                           \
   ca-certificates                 \
+  cron                            \
   curl                            \
   git                             \
   gzip                            \
@@ -115,12 +116,6 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.s
   && cd /etc                                                                          \
   && nvm install                                                                      \
   && npm install -g yarn
-
-# Setup NVM and Node sourcing.
-# ----------------------------
-
-RUN echo "\n# Source NVM scripts\nsource $NVM_DIR/nvm.sh" >> /etc/bash.bashrc
-
 
 # Make sure any sudoer can control libs.
 # --------------------------------------
