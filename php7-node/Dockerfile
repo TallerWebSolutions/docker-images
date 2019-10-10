@@ -25,6 +25,7 @@ RUN apt-get update -y               \
   nano                            \
   netcat                          \
   openconnect                     \
+  php7.2-soap                     \
   php7.2-sqlite3                  \
   php-xdebug                      \
   python-software-properties      \
