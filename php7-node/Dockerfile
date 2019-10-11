@@ -4,7 +4,7 @@ MAINTAINER Taller Development Team <dev@taller.net.br>
 # Install dependencies.
 # ---------------------
 
-RUN apt-get update -y               \
+RUN apt-get update -y             \
   && apt-get install -y           \
   bash-completion                 \
   build-essential                 \
