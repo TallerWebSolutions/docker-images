@@ -27,3 +27,6 @@ Here are some tips to customizing the images for each project's needs.
 ### Timezone
 
 To set timezone configuration, use the environment variable TZ. [Read more](https://github.com/docker/docker/issues/12084#issuecomment-160177087).
+
+## LICENSE
+MIT
