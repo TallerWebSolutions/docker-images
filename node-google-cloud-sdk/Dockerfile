@@ -28,10 +28,6 @@ RUN apt-get update -y               \
   && rm -rf /tmp/*                \
   && rm -rf /var/tmp/*
 
-# Copy configuration files.
-# -------------------------
-COPY ./docker/certs/svc_account.json /tmp/certs/svc_account.json
-
 # Installs SQL Cloud Proxy to allow db access from local
 # -------------------------
 RUN wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy \
