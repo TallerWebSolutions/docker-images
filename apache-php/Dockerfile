@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends 	\
 			php7.3-mbstring                                          		\
 			php7.3-mysql                                             		\
 			php7.3-pgsql                                             		\
+			php7.3-sqlite3                                           		\
 			php7.3-pspell                                            		\
 			php7.3-xml                                               		\
 			php7.3-xmlrpc                                            		\
