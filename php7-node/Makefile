@@ -1,6 +1,6 @@
 .PHONE: build push
 
-TAG=7.2
+TAG=latest
 USER=taller
 REPO=$(notdir $(CURDIR))
 

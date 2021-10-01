@@ -1,4 +1,4 @@
-FROM mobingi/ubuntu-apache2-php7:7.2
+FROM mboyov/apache2-php74
 MAINTAINER Taller Development Team <dev@taller.net.br>
 
 # Install dependencies.
