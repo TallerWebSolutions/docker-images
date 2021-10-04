@@ -18,7 +18,7 @@ RUN apt-get update -y             \
   iputils-ping                    \
   libfontconfig1                  \
   libjpeg-dev                     \
-  libpng12-dev                    \
+  libpng-dev                      \
   libpq-dev                       \
   locales                         \
   mysql-client                    \
@@ -28,7 +28,7 @@ RUN apt-get update -y             \
   php7.2-soap                     \
   php7.2-sqlite3                  \
   php-xdebug                      \
-  python-software-properties      \
+  software-properties-common      \
   rsync                           \
   sudo                            \
   ssh                             \
