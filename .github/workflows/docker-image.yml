@@ -13,4 +13,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file ./php7-node/Dockerfile --tag taller/php7-node:latest
+      run: docker build ./php7-node -t taller/php7-node:latest
+      # run: docker build . --file ./php7-node/Dockerfile --tag taller/php7-node:latest
