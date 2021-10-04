@@ -91,7 +91,7 @@ RUN sudo sh -c "echo '\n\n[xdebug]\nxdebug.remote_autostart = 1\nxdebug.remote_e
 
 # Apache2 configs.
 # -------------
-COPY default.conf /etc/apache2/sites-available/
+COPY ./default.conf /etc/apache2/sites-available/
 
 # Import profile files.
 # -------------
