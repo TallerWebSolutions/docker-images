@@ -25,8 +25,8 @@ RUN apt-get update -y             \
   nano                            \
   netcat                          \
   openconnect                     \
-  php7.2-soap                     \
-  php7.2-sqlite3                  \
+  php7.4-soap                     \
+  php7.4-sqlite3                  \
   php-xdebug                      \
   software-properties-common      \
   rsync                           \
@@ -86,7 +86,7 @@ RUN groupadd --gid ${GROUP_ID} ${GROUP_NAME}                                    
 # PHP configs.
 # -----------
 RUN sudo sh -c "echo '\n\n[xdebug]\nxdebug.remote_autostart = 1\nxdebug.remote_enable = 1\nxdebug.remote_connect_back = 1' \
-  >> /etc/php/7.2/apache2/php.ini" \
+  >> /etc/php/7.4/apache2/php.ini" \
   && sudo phpdismod xdebug
 
 # Apache2 configs.
