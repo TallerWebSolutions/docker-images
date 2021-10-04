@@ -1,5 +1,5 @@
 FROM mboyov/apache2-php74
-MAINTAINER Taller Development Team <dev@taller.net.br>
+LABEL Taller Development Team <dev@taller.net.br>
 
 # Install dependencies.
 # ---------------------
