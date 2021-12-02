@@ -150,3 +150,9 @@ COPY ./entrypoint.sh /etc/entrypoint.sh
 RUN sudo chmod +x /etc/entrypoint.sh
 CMD ["/bin/bash"]
 ENTRYPOINT ["/etc/entrypoint.sh"]
+
+# Update apache version
+
+RUN sudo add-apt-repository ppa:ondrej/apache2 -y \
+  && sudo apt-get update                          \
+  && sudo apt-get install apache2 -y   
