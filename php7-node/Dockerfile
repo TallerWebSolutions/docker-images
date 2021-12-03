@@ -121,7 +121,6 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.s
 
 RUN echo "\n# Source NVM scripts\nsource $NVM_DIR/nvm.sh" >> /etc/bash.bashrc
 
-
 # Make sure any sudoer can control libs.
 # --------------------------------------
 
@@ -152,6 +151,7 @@ CMD ["/bin/bash"]
 ENTRYPOINT ["/etc/entrypoint.sh"]
 
 # Update apache version
+# ---------------------
 
 RUN sudo add-apt-repository ppa:ondrej/apache2 -y \
   && sudo apt-get update                          \
