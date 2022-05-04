@@ -1,47 +1,85 @@
-FROM mboyov/apache2-php74
+FROM ubuntu:20.04
 LABEL Taller Development Team <dev@taller.net.br>
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils software-properties-common
+
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/apache2
 
 # Install dependencies.
 # ---------------------
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
+	  libapache2-mod-php7.4 \
+		php7.4 \
+		php7.4-common \
+		php7.4-mysql \
+		php7.4-xml \
+		php7.4-xmlrpc \
+		php7.4-curl \
+		php7.4-gd \
+		php7.4-imagick \
+		php7.4-cli \
+		php7.4-dev \
+		php7.4-imap \
+		php7.4-mbstring \
+		php7.4-opcache \
+		php7.4-soap \
+		php7.4-zip \
+		php7.4-intl \
+		php7.4-bcmath \
+		php7.4-pgsql \
+		php7.4-pspell \
+		php7.4-apcu \
+		php7.4-memcached \
+		php-pear \
+		php7.4-redis \
+		php7.4-xdebug \
+		apache2 \
+    bash-completion                 \
+    build-essential                 \
+    bzip2                           \
+    ca-certificates                 \
+    curl                            \
+    git                             \
+    gzip                            \
+    htop                            \
+    imagemagick                     \
+    iputils-ping                    \
+    libfontconfig1                  \
+    libjpeg-dev                     \
+    libpng-dev                      \
+    libpq-dev                       \
+    locales                         \
+    mysql-client                    \
+    nano                            \
+    netcat                          \
+    openconnect                     \
+    php7.4-soap                     \
+    php7.4-sqlite3                  \
+    software-properties-common      \
+    rsync                           \
+    sudo                            \
+    ssh                             \
+    tig                             \
+    vim                             \
+    xz-utils                        \
+    wget                            \
+    unzip                           \
+    --no-install-recommends         \
+    && apt-get clean                \
+    && rm -rf /tmp/*                \
+    && rm -rf /var/tmp/*            \
+    && rm -fr /var/lib/apt/lists/*
 
-RUN apt-get update -y             \
-  && apt-get install -y           \
-  bash-completion                 \
-  build-essential                 \
-  bzip2                           \
-  ca-certificates                 \
-  curl                            \
-  git                             \
-  gzip                            \
-  htop                            \
-  imagemagick                     \
-  iputils-ping                    \
-  libfontconfig1                  \
-  libjpeg-dev                     \
-  libpng-dev                      \
-  libpq-dev                       \
-  locales                         \
-  mysql-client                    \
-  nano                            \
-  netcat                          \
-  openconnect                     \
-  php7.4-soap                     \
-  php7.4-sqlite3                  \
-  php-xdebug                      \
-  software-properties-common      \
-  rsync                           \
-  sudo                            \
-  ssh                             \
-  tig                             \
-  vim                             \
-  xz-utils                        \
-  wget                            \
-  unzip                           \
-  --no-install-recommends         \
-  && apt-get clean                \
-  && rm -rf /var/lib/apt/lists/*  \
-  && rm -rf /tmp/*                \
-  && rm -rf /var/tmp/*
+RUN a2enmod php7.4
+RUN a2enmod rewrite
+ADD www /var/www/html
+ADD apache-conf.conf /etc/apache2/sites-available/site.conf
+
+RUN a2ensite site.conf
+RUN a2dissite 000-default.conf
 
 # Configure Composer related environment.
 # ---------------------------------------
@@ -54,7 +92,7 @@ ENV COMPOSER_DISABLE_XDEBUG_WARN 1
 # # -----------------
 #
 RUN curl -sS https://getcomposer.org/installer | php -- --version=1.7.3 \
-  && mv composer.phar /usr/local/bin/composer                         \
+  && mv composer.phar /usr/local/bin/composer \
   && composer global require "hirak/prestissimo:^0.3"
 
 # Build-time configuration.
@@ -142,17 +180,17 @@ ENV PATH="/${USER_NAME}/app/vendor/bin:$PATH"
 RUN sudo cp -R /root/.composer /${USER_NAME}/.composer \
   && sudo chown ${USER_NAME}:${GROUP_NAME} -R /${USER_NAME}/.composer
 
-# Configure entrypoint.
-# ---------------------
-
-COPY ./entrypoint.sh /etc/entrypoint.sh
-RUN sudo chmod +x /etc/entrypoint.sh
-CMD ["/bin/bash"]
-ENTRYPOINT ["/etc/entrypoint.sh"]
-
 # Update apache version
 # ---------------------
-
 RUN sudo add-apt-repository ppa:ondrej/apache2 -y \
   && sudo apt-get update                          \
   && sudo apt-get install apache2 -y   
+
+# Configure entrypoint.
+# ---------------------
+COPY ./entrypoint.sh /etc/entrypoint.sh
+RUN sudo chmod +x /etc/entrypoint.sh
+
+# CMD ["/bin/bash"]
+# CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+# ENTRYPOINT ["/etc/entrypoint.sh"]
