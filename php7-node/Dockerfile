@@ -3,75 +3,89 @@ LABEL Taller Development Team <dev@taller.net.br>
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils software-properties-common
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils software-properties-common gpg-agent \
+  && apt-get clean                \
+  && rm -rf /tmp/*                \
+  && rm -rf /var/tmp/*            \
+  && rm -fr /var/lib/apt/lists/*
 
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/apache2
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
+  && apt-get clean                \
+  && rm -rf /tmp/*                \
+  && rm -rf /var/tmp/*            \
+  && rm -fr /var/lib/apt/lists/*
+
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/apache2 \
+  && apt-get clean                \
+  && rm -rf /tmp/*                \
+  && rm -rf /var/tmp/*            \
+  && rm -fr /var/lib/apt/lists/*
 
 # Install dependencies.
 # ---------------------
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
-	  libapache2-mod-php7.4 \
-		php7.4 \
-		php7.4-common \
-		php7.4-mysql \
-		php7.4-xml \
-		php7.4-xmlrpc \
-		php7.4-curl \
-		php7.4-gd \
-		php7.4-imagick \
-		php7.4-cli \
-		php7.4-dev \
-		php7.4-imap \
-		php7.4-mbstring \
-		php7.4-opcache \
-		php7.4-soap \
-		php7.4-zip \
-		php7.4-intl \
-		php7.4-bcmath \
-		php7.4-pgsql \
-		php7.4-pspell \
-		php7.4-apcu \
-		php7.4-memcached \
-		php-pear \
-		php7.4-redis \
-		php7.4-xdebug \
-		apache2 \
-    bash-completion                 \
-    build-essential                 \
-    bzip2                           \
-    ca-certificates                 \
-    curl                            \
-    git                             \
-    gzip                            \
-    htop                            \
-    imagemagick                     \
-    iputils-ping                    \
-    libfontconfig1                  \
-    libjpeg-dev                     \
-    libpng-dev                      \
-    libpq-dev                       \
-    locales                         \
-    mysql-client                    \
-    nano                            \
-    netcat                          \
-    openconnect                     \
-    php7.4-soap                     \
-    php7.4-sqlite3                  \
-    software-properties-common      \
-    rsync                           \
-    sudo                            \
-    ssh                             \
-    tig                             \
-    vim                             \
-    xz-utils                        \
-    wget                            \
-    unzip                           \
-    --no-install-recommends         \
-    && apt-get clean                \
-    && rm -rf /tmp/*                \
-    && rm -rf /var/tmp/*            \
-    && rm -fr /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  bash-completion                 \
+  build-essential                 \
+  bzip2                           \
+  ca-certificates                 \
+  curl                            \
+  git                             \
+  gzip                            \
+  htop                            \
+  imagemagick                     \
+  iputils-ping                    \
+  libfontconfig1                  \
+  libjpeg-dev                     \
+  libpng-dev                      \
+  libpq-dev                       \
+  locales                         \
+  mysql-client                    \
+  nano                            \
+  netcat                          \
+  openconnect                     \
+  libapache2-mod-php7.4           \
+  php-pear                        \
+  php7.4                          \
+  php7.4-common                   \
+  php7.4-mysql                    \
+  php7.4-xml                      \
+  php7.4-xmlrpc                   \
+  php7.4-curl                     \
+  php7.4-gd                       \
+  php7.4-imagick                  \
+  php7.4-cli                      \
+  php7.4-dev                      \
+  php7.4-imap                     \
+  php7.4-mbstring                 \
+  php7.4-opcache                  \
+  php7.4-soap                     \
+  php7.4-zip                      \
+  php7.4-intl                     \
+  php7.4-bcmath                   \
+  php7.4-pgsql                    \
+  php7.4-pspell                   \
+  php7.4-apcu                     \
+  php7.4-memcached                \
+  php7.4-redis                    \
+  php7.4-xdebug                   \
+  php7.4-soap                     \
+  php7.4-sqlite3                  \
+  apache2                         \
+  rsync                           \
+  sudo                            \
+  ssh                             \
+  tig                             \
+  vim                             \
+  xz-utils                        \
+  wget                            \
+  unzip                           \
+  --no-install-recommends         \
+  && apt-get remove --purge build-essential -y \
+  && apt-get autoremove --purge -y\
+  && apt-get clean                \
+  && rm -rf /tmp/*                \
+  && rm -rf /var/tmp/*            \
+  && rm -fr /var/lib/apt/lists/*
 
 RUN a2enmod php7.4
 RUN a2enmod rewrite
@@ -91,9 +105,10 @@ ENV COMPOSER_DISABLE_XDEBUG_WARN 1
 # # Install Composer.
 # # -----------------
 #
-RUN curl -sS https://getcomposer.org/installer | php -- --version=1.7.3 \
+RUN curl -sS https://getcomposer.org/installer | php -- --version=1.10.26 \
   && mv composer.phar /usr/local/bin/composer \
-  && composer global require "hirak/prestissimo:^0.3"
+  && composer global require "hirak/prestissimo:^0.3" \
+  && composer clearcache
 
 # Build-time configuration.
 # -------------------------
@@ -147,12 +162,14 @@ ENV NVM_DIR /${USER_NAME}/.nvm
 
 RUN mkdir /${USER_NAME}/.nvm
 COPY ./.nvmrc /etc/.nvmrc
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash \
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash \
   && [ -s "$NVM_DIR/nvm.sh" ]                                                         \
   && . "$NVM_DIR/nvm.sh"                                                              \
   && cd /etc                                                                          \
   && nvm install                                                                      \
-  && npm install -g yarn
+  && npm install -g yarn                                                              \
+  && nvm cache clear \
+  && npm cache clean --force
 
 # Setup NVM and Node sourcing.
 # ----------------------------
@@ -180,17 +197,7 @@ ENV PATH="/${USER_NAME}/app/vendor/bin:$PATH"
 RUN sudo cp -R /root/.composer /${USER_NAME}/.composer \
   && sudo chown ${USER_NAME}:${GROUP_NAME} -R /${USER_NAME}/.composer
 
-# Update apache version
-# ---------------------
-RUN sudo add-apt-repository ppa:ondrej/apache2 -y \
-  && sudo apt-get update                          \
-  && sudo apt-get install apache2 -y   
-
 # Configure entrypoint.
 # ---------------------
 COPY ./entrypoint.sh /etc/entrypoint.sh
 RUN sudo chmod +x /etc/entrypoint.sh
-
-# CMD ["/bin/bash"]
-# CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
-# ENTRYPOINT ["/etc/entrypoint.sh"]
