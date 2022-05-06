@@ -2,6 +2,8 @@ FROM ubuntu:20.04
 LABEL Taller Development Team <dev@taller.net.br>
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG VERSION=7.4
+ENV VERSION ${VERSION}
 
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils software-properties-common gpg-agent \
   && apt-get clean                \
@@ -38,33 +40,33 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   nano                            \
   netcat                          \
   openconnect                     \
-  libapache2-mod-php7.4           \
+  libapache2-mod-php${VERSION}    \
   php-pear                        \
-  php7.4                          \
-  php7.4-common                   \
-  php7.4-mysql                    \
-  php7.4-xml                      \
-  php7.4-xmlrpc                   \
-  php7.4-curl                     \
-  php7.4-gd                       \
-  php7.4-imagick                  \
-  php7.4-cli                      \
-  php7.4-dev                      \
-  php7.4-imap                     \
-  php7.4-mbstring                 \
-  php7.4-opcache                  \
-  php7.4-soap                     \
-  php7.4-zip                      \
-  php7.4-intl                     \
-  php7.4-bcmath                   \
-  php7.4-pgsql                    \
-  php7.4-pspell                   \
-  php7.4-apcu                     \
-  php7.4-memcached                \
-  php7.4-redis                    \
-  php7.4-xdebug                   \
-  php7.4-soap                     \
-  php7.4-sqlite3                  \
+  php${VERSION}                   \
+  php${VERSION}-common            \
+  php${VERSION}-mysql             \
+  php${VERSION}-xml               \
+  php${VERSION}-xmlrpc            \
+  php${VERSION}-curl              \
+  php${VERSION}-gd                \
+  php${VERSION}-imagick           \
+  php${VERSION}-cli               \
+  php${VERSION}-dev               \
+  php${VERSION}-imap              \
+  php${VERSION}-mbstring          \
+  php${VERSION}-opcache           \
+  php${VERSION}-soap              \
+  php${VERSION}-zip               \
+  php${VERSION}-intl              \
+  php${VERSION}-bcmath            \
+  php${VERSION}-pgsql             \
+  php${VERSION}-pspell            \
+  php${VERSION}-apcu              \
+  php${VERSION}-memcached         \
+  php${VERSION}-redis             \
+  php${VERSION}-xdebug            \
+  php${VERSION}-soap              \
+  php${VERSION}-sqlite3           \
   apache2                         \
   rsync                           \
   sudo                            \
@@ -76,13 +78,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   unzip                           \
   --no-install-recommends         \
   && apt-get remove --purge build-essential -y \
-  && apt-get autoremove --purge -y\
+  && apt-get autoremove --purge -y \
   && apt-get clean                \
   && rm -rf /tmp/*                \
   && rm -rf /var/tmp/*            \
   && rm -fr /var/lib/apt/lists/*
 
-RUN a2enmod php7.4
+RUN a2enmod php${VERSION}
 RUN a2enmod rewrite
 ADD www /var/www/html
 ADD apache-conf.conf /etc/apache2/sites-available/site.conf
@@ -104,6 +106,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --version=1.10.26 \
   && mv composer.phar /usr/local/bin/composer \
   && composer global require "hirak/prestissimo:^0.3" \
   && composer clearcache
+
 
 # Build-time configuration.
 # -------------------------
@@ -134,7 +137,7 @@ RUN groupadd --gid ${GROUP_ID} ${GROUP_NAME}                                    
 # PHP configs.
 # -----------
 RUN sudo sh -c "echo '\n\n[xdebug]\nxdebug.remote_autostart = 1\nxdebug.remote_enable = 1\nxdebug.remote_connect_back = 1' \
-  >> /etc/php/7.4/apache2/php.ini" \
+  >> /etc/php/${VERSION}/apache2/php.ini" \
   && sudo phpdismod xdebug
 
 # Apache2 configs.
