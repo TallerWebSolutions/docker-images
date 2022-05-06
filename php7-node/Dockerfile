@@ -10,12 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils softw
   && rm -fr /var/lib/apt/lists/*
 
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
-  && apt-get clean                \
-  && rm -rf /tmp/*                \
-  && rm -rf /var/tmp/*            \
-  && rm -fr /var/lib/apt/lists/*
-
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/apache2 \
+  && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/apache2 \
   && apt-get clean                \
   && rm -rf /tmp/*                \
   && rm -rf /var/tmp/*            \
