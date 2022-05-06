@@ -84,19 +84,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/tmp/*            \
   && rm -fr /var/lib/apt/lists/*
 
-RUN a2enmod php${VERSION}
-RUN a2enmod rewrite
-ADD www /var/www/html
-ADD apache-conf.conf /etc/apache2/sites-available/site.conf
 
-RUN a2ensite site.conf
-RUN a2dissite 000-default.conf
+# Apache2 configs.
+# -------------
+COPY ./default.conf /etc/apache2/sites-available/
+RUN a2ensite default.conf \
+  && a2dissite 000-default.conf \
+  && a2enmod php${VERSION} \
+  && a2enmod rewrite
 
 # Configure Composer related environment.
 # ---------------------------------------
-
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_DISABLE_XDEBUG_WARN 1
+
 #
 #
 # # Install Composer.
@@ -139,10 +140,6 @@ RUN groupadd --gid ${GROUP_ID} ${GROUP_NAME}                                    
 RUN sudo sh -c "echo '\n\n[xdebug]\nxdebug.remote_autostart = 1\nxdebug.remote_enable = 1\nxdebug.remote_connect_back = 1' \
   >> /etc/php/${VERSION}/apache2/php.ini" \
   && sudo phpdismod xdebug
-
-# Apache2 configs.
-# -------------
-COPY ./default.conf /etc/apache2/sites-available/
 
 # Import profile files.
 # -------------
